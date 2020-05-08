@@ -81,12 +81,46 @@ for c in cities:
 
 # TODO Get latitude and longitude values from the user
 
+user = input("Enter two pairs of lat and long values, and we will tell you which cities fall within the square.")
+userList = user.split(" ")
+userFloats = [float(x) for x in userList]
+
+# This tests whether each city's lat and lon and both larger than the user's smallest lat and lon and smaller
+# than the user's largest lat and lon
 def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   # within will hold the cities that fall within the specified region
   within = []
+  smallestLat = None
+  smallestLon = None
+  largestLat = None
+  largestLon = None
 
+  if lat1 < lat2:
+    smallestLat = lat1
+    largestLat = lat2
+  else:
+    smallestLat = lat2
+    largestLat = lat1
+
+  if lon1 < lon2:
+    smallestLon = lon1
+    largestLon = lon2
+  else:
+    smallestLon = lon2
+    largestLon = lon1
+
+  print("lll", smallestLat, smallestLon, largestLat, largestLon)
+  
+  for c in cities:
+    if c.lon > smallestLon and c.lon < largestLon and c.lat < largestLat and c.lat > smallestLat:
+      within.append(c) 
   # TODO Ensure that the lat and lon values are all floats
   # Go through each city and check to see if it falls within 
   # the specified coordinates.
 
   return within
+
+within = cityreader_stretch(userFloats[0], userFloats[1], userFloats[2], userFloats[3], cities)
+
+for c in within:
+  print(f"{c.name}: ({c.lat}, {c.lon})")
